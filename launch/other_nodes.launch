@@ -1,0 +1,12 @@
+<launch>
+   
+   <!-- AR.Drone autonomy node -->
+   <include file="$(find ardrone_visual_servoing)/launch/ardrone_autonomy.launch" />
+
+   <!-- Alvar AR-tag tracker -->
+   <include file="$(find ardrone_visual_servoing)/launch/alvar_bottom.launch" />
+
+   <!-- Joy node --> 
+   <include file="$(find ardrone_visual_servoing)/launch/joy.launch" />   
+      
+</launch>

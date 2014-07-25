@@ -1,0 +1,9 @@
+std_msgs/Header header
+string controller_state
+string autopilot_state
+geometry_msgs/Pose goal_pos
+bool calc_error
+geometry_msgs/Pose pos_error
+geometry_msgs/Twist cmd_manual
+geometry_msgs/Twist cmd_autopilot
+geometry_msgs/Vector3 pid

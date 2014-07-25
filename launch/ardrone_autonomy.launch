@@ -1,0 +1,16 @@
+<launch>
+	<node name="ardrone_driver" pkg="ardrone_autonomy" type="ardrone_driver" output="screen" clear_params="true">
+	   <param name="outdoor" value="0" />				
+	   <param name="flight_without_shell" value="0" /> 
+	    
+	   <param name="altitude_max" value="3000" />	<!-- in mm = 3 [m] -->
+      <param name="altitude_min" value="200" />		<!-- in mm = .2 [m] -->
+      <param name="euler_angle_max" value="0.1" />	<!-- max allowable body angle in radians = 5 [deg] -->
+      <param name="control_vz_max" value="500" />	<!-- max z velocity in mm/sec = 0.5 [m/sec] -->
+	   <param name="control_yaw" value="0.7" />		<!-- max rotation rate in radians/sec = 40 [deg/sec] -->
+	    
+      <!-- <param name="video_channel" value="1" /> -->     <!-- using bottom camera -->
+      
+      
+   </node>
+</launch>

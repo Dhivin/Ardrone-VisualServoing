@@ -1,0 +1,3 @@
+<launch>
+   <node name="ardrone_visual_servoing_controller" pkg="ardrone_visual_servoing" type="ardrone_visual_servoing.py" required="true"/>   
+</launch>
