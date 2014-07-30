@@ -11,6 +11,9 @@ class movingAverage(object):
    def setLength(self, length):
       self.maxSize = length
       self.clear()
+   
+   def getLength(self):
+      return self.maxSize
       
    def append(self, i):
       if len(self.array) < self.maxSize:

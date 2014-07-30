@@ -7,3 +7,5 @@ geometry_msgs/Pose pos_error
 geometry_msgs/Twist cmd_manual
 geometry_msgs/Twist cmd_autopilot
 geometry_msgs/Vector3 pid
+ardrone_visual_servoing/GoalMarker goal_marker
+ardrone_visual_servoing/PoseEstimator pose_estimator

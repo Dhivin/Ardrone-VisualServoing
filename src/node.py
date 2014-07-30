@@ -34,6 +34,7 @@ from ar_track_alvar.msg import AlvarMarkers
 from ardrone_visual_servoing.msg import CtrlState
 from ardrone_visual_servoing.msg import ARdroneControllerState
 from ardrone_visual_servoing.msg import PoseEstimator
+from ardrone_visual_servoing.msg import GoalMarker
 
 
 # import
@@ -101,7 +102,7 @@ class ARdroneVisualServoingController(object):
       self.vel = np.zeros((3,1))
       self.velTimeStamp = rospy.Time(0)
       # pose estimation
-      self.activePoseEstFrame = "ARdrone_est_planar"
+      self.activePoseEstFrame = "ARdrone_est"
       # error
       self.error_p = np.zeros((3,1))
       self.error_i = np.zeros((3,1))
@@ -172,11 +173,18 @@ class ARdroneVisualServoingController(object):
 
          stateMsg.pid = Vector3(self.Kp, self.Ki, self.Kd)
 
+         stateMsg.goal_marker = self.poseEst.getGoalMarkerFrame()
+         
+         postEstMsg = PoseEstimator()
+         postEstMsg.pose_est_frame = self.activePoseEstFrame
+         postEstMsg.lowpass_length = self.poseEst.getLowpassLength()
+         stateMsg.pose_estimator = postEstMsg
+
          return stateMsg
 
    def calcErrors(self):
       f_from = 'ardrone_goal_pose'
-      f_to   = self.activePoseEstFrame
+      f_to   = self.activePoseEstFrame  + "_planar"
       # calculate proportional error
       try:
          common_time = self.tfl.getLatestCommonTime(f_from, f_to)
@@ -247,7 +255,7 @@ class ARdroneVisualServoingController(object):
       return ArdroneCommand(pitch,roll,yaw,z)
 
    def receivePoseEstSettings(self,msg):
-      self.activePoseEstFrame = msg.pose_est_frame + "_planar"
+      self.activePoseEstFrame = msg.pose_est_frame
       self.poseEst.setLowpassLength(msg.lowpass_length)
 
    def receiveJoyMsg(self,msg):

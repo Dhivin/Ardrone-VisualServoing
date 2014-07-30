@@ -48,9 +48,10 @@ class ARdronePoseEstimation(object):
       self.goalMarkerId    = 6
       self.goalMarkerFrame = "ar_marker_"+str(self.goalMarkerId)
       # init moving average filters
-      self.ma_x = movingAverage()
-      self.ma_y = movingAverage()
-      self.ma_z = movingAverage()
+      self.movingAverageLength = 10
+      self.ma_x = movingAverage(self.movingAverageLength)
+      self.ma_y = movingAverage(self.movingAverageLength)
+      self.ma_z = movingAverage(self.movingAverageLength)
 
       '''
       Init subscribers
@@ -70,10 +71,20 @@ class ARdronePoseEstimation(object):
       # TF broadcaster
       self.tfb = tf.TransformBroadcaster()
 
+   def getLowpassLength(self):
+      return self.movingAverageLength
+
    def setLowpassLength(self,length):
-      self.ma_x.setLength(length)
-      self.ma_y.setLength(length)
-      self.ma_z.setLength(length)
+      self.movingAverageLength = length
+      self.ma_x.setLength(self.movingAverageLength)
+      self.ma_y.setLength(self.movingAverageLength)
+      self.ma_z.setLength(self.movingAverageLength)
+
+   def getGoalMarkerFrame(self):
+      msg = GoalMarker()
+      msg.goal_marker_id    = self.goalMarkerId
+      msg.goal_marker_frame = self.goalMarkerFrame
+      return msg
 
    def receiveGoalMarkerFrame(self,msg):
       self.goalMarkerId    = msg.goal_marker_id
